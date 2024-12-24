@@ -1,0 +1,10 @@
+# Gizli bilgiler
+.env
+
+# Python bytecode dosyaları
+__pycache__/
+*.pyc
+
+# Diğer dış kütüphaneler
+*.egg
+*.egg-info
