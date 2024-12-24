@@ -33,3 +33,19 @@ def load_data():
         print(f"FAILED DATABASE CONNECTION: {e}")
     finally:
         connection.close()
+
+def load_item(id):
+    connection = get_db_connection()
+    try:
+        dataset = []
+        cursor = connection.cursor()
+        cursor.execute("SELECT * FROM market_items WHERE id = %s", (id,))
+        info = cursor.fetchall()
+        for i in info:
+            dataset.append(dict(i))
+        print("SUCCESSFUL DATABASE CONNECTION!")
+        return dataset
+    except Exception as e:
+        print(f"FAILED DATABASE CONNECTION: {e}")
+    finally:
+        connection.close()
