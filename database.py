@@ -28,7 +28,7 @@ def load_data():
         for i in info:
             dataset.append(dict(i))
         print("SUCCESSFUL DATABASE CONNECTION!")
-        print(dataset)
+        return dataset
     except Exception as e:
         print(f"FAILED DATABASE CONNECTION: {e}")
     finally:

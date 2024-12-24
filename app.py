@@ -1,4 +1,5 @@
 from flask import Flask,render_template
+from database import load_data     
                 
 app = Flask(__name__)
 
@@ -8,7 +9,8 @@ def home():
 
 @app.route('/market')
 def market():
-    return render_template('market.html')
+    data = load_data()
+    return render_template('market.html',data=data)
 
 if __name__ == '__main__':
     app.run(
