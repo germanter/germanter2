@@ -14,9 +14,11 @@
         <br>
         <p style="margin-right:50px;margin-left:50px;font-size: 1.5em; color: black;">{{data[0]['description']}}</p>
         <br>
+        <p style="padding:10px;font-weight:bold;border: 2px solid #DFDFDF; border-radius: 8px;margin-right:50px;margin-left:50px;font-size: 1.5em; color: #black;">● The dealer has of {{data[0]['in_dealer']}} this vehicle ●</p>
         <p style="padding:10px;font-weight:bold;border: 2px solid #DFDFDF; border-radius: 8px;margin-right:50px;margin-left:50px;font-size: 1.5em; color: #black;">Specifications : {{data[0]['specs']}}</p>
+
         <br>
-        <a href="#" style='font-size:1.5em;margin-bottom:5px;' class="btn btn-primary">Make a reservation</a>
+        <a href="{{url_for('reservation',id=data[0]['id'])}}" style='font-size:1.5em;margin-bottom:5px;' class="btn btn-primary">Make a reservation</a>
         <br><br>
     </div>
     

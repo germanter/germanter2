@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}
+    Market/{{ data[0]['id'] }}/Reservation - Proto-Car
+{% endblock %}
+{% block banner %}
+{% endblock %}
+
+{% block text %}
+    <br><br>
+    <div style='background-color: #f9f9f9;' class="border border-success p-2 border-opacity-10">
+        <h1 style="margin-top:20px;text-align: center; color: #333;">Car Purchase Reservation</h1>
+
+    <div style="padding: 20px; max-width: 600px; margin: 0 auto; border-radius: 8px;">
+        <p>
+            <strong>Dealer:</strong> Online Reservation Completed
+        </p>
+        <p>
+            <strong>Dealer Location:</strong> California, USA
+        </p>
+        <p>
+            <strong>Dealer Name:</strong> Proto-Car Motors
+        </p>
+        <p>
+            <strong>Vehicle Name:</strong> {{data[0]['name']}}
+        </p>
+        <p>
+            <strong>Reservation Time:</strong> {{timeset[1]}}
+        </p>
+        <p>
+            <strong>Reservation Date:</strong> {{timeset[0]}}
+        </p>
+        <p>
+            <strong>Additional Info:</strong> The vehicle is ready for pickup at the scheduled time.
+        </p>
+    </div>
+    </div>
+    
+{% endblock %}
