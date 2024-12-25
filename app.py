@@ -1,4 +1,4 @@
-from flask import Flask,render_template,jsonify
+from flask import Flask,render_template,jsonify,request
 from database import load_data,load_item  
 import random
 import datetime
@@ -39,6 +39,7 @@ def signup():
 @app.route('/login')
 def login():
     return render_template('login.html')
+
 
 if __name__ == '__main__':
     app.run(
