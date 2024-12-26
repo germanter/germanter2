@@ -49,3 +49,22 @@ def load_item(id):
         print(f"FAILED DATABASE CONNECTION: {e}")
     finally:
         connection.close()
+        
+def insert_application(user_data):
+    connection = get_db_connection()
+    try:
+        cursor = connection.cursor()
+        cursor.execute(
+            "INSERT INTO users (name, email, password) VALUES(%s, %s, %s)",
+            (
+                user_data[0],
+                user_data[1],
+                user_data[2],
+            ),
+        )
+        connection.commit()
+        print("USER SUCCESSFULLY INSERTED!")
+    except Exception as e:
+        print(f"FAILED TO INSERT USER: {e}")
+    finally:
+        connection.close()

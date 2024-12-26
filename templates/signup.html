@@ -11,22 +11,23 @@
     <div style="display: flex; justify-content: center; align-items: center; background-color: #f8f9fa; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); max-width: 900px; margin: auto;">
         <!-- Form Section -->
         <form method="POST" style="flex: 1; display: flex; flex-direction: column; align-items: center; margin-right: 20px;">
+            {{form.hidden_tag()}}
             <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
             
-            <label for="username" style="font-family: Arial, sans-serif; font-size: 18px; margin-bottom: 5px;">Your Name</label>
-            <input required name="username" maxlength="50" minlength="3" id="username" type="text" style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;">
+            {{form.name.label(style="font-family: Arial, sans-serif; font-size: 18px; margin-bottom: 5px;")}}
+            {{form.name(style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;")}}
+
+            {{form.email.label(style="font-family: Arial, sans-serif; font-size: 18px; margin-bottom: 5px;")}}
+            {{form.email(style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;")}}
           
-            <label for="email" style="font-family: Arial, sans-serif; font-size: 18px; margin-bottom: 5px;">Your Email</label>
-            <input maxlength="100" name="email" id="email" type="email" required style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;">
-          
-            <label for="password" style="font-family: Arial, sans-serif; font-size: 18px; margin-bottom: 5px;">Password</label>
-            <input required minlength="6" maxlength="20" name="password" id="password" type="password" style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;">
-    
-            <label for="password_repeat" style="font-family: Arial, sans-serif; font-size: 18px; margin-bottom: 5px;">Repeat Password</label>
-            <input required minlength="6" maxlength="20" name="password_repeat" id="password_repeat" type="password" style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;">
+            {{form.password1.label(style="font-family: Arial, sans-serif; font-size: 18px; margin-bottom: 5px;")}}
+            {{form.password1(style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;")}}
+
+            {{form.password2.label(style="font-family: Arial, sans-serif; font-size: 18px; margin-bottom: 5px;")}}
+            {{form.password2(style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;")}}
             <a href='{{url_for('login')}}' class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" style="font-family: Arial, sans-serif; font-size: 16px; margin-bottom: 10px;">Already have an account?</a>
 
-            <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg">Register</button>
+            {{form.submit(class="btn btn-primary btn-lg")}}
         </form>
     
         <!-- Photo Section -->

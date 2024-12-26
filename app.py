@@ -1,9 +1,11 @@
-from flask import Flask,render_template,jsonify,request
+from flask import Flask,render_template,jsonify,request,redirect,url_for
 from database import load_data,load_item  
 import random
 import datetime
+from forms import signup as signupform
                 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = '15546c327b3b7e35dbe0379cc9a745ad888fd86d4ebbbbae7694001ee85951e4'
 
 def set_reservation():
     tomorrow=datetime.datetime.now() + datetime.timedelta(days=1)
@@ -32,9 +34,14 @@ def reservation(id):
     timeset= set_reservation()
     return render_template('reservation.html',data=data,timeset=timeset)
 
-@app.route('/signup')
+@app.route('/signup',methods=['POST','GET'])
 def signup():
-    return render_template('signup.html')
+    form = signupform()
+    if form.validate_on_submit():
+        data = [form.name.data,form.email.data,form.password1.data]
+        print(data)
+        return redirect(url_for("market"))
+    return render_template('signup.html',form=form)
 
 @app.route('/login')
 def login():
