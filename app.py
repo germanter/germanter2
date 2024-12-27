@@ -106,8 +106,8 @@ def login():
             if check_password_hash(user_data['password'],attempted_user[1]):
                 user_attempt = User(user_data['id'], user_data['name'], user_data['email'])
                 login_user(user_attempt)
-
-                flash(f'You logged in as {user_data['name']}')
+                name = user_data['name']
+                flash(f'You logged in as {name}')
                 return redirect(url_for('market'))
             else:
                 flash('Account not found!')
@@ -125,5 +125,5 @@ def logout():
 if __name__ == '__main__':
     app.run(
         host = '0.0.0.0',
-        debug = True
+        # debug = True
     )
