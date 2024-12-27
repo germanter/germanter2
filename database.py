@@ -66,5 +66,6 @@ def insert_application(user_data):
         print("USER SUCCESSFULLY INSERTED!")
     except Exception as e:
         print(f"FAILED TO INSERT USER: {e}")
+        return list(e.args)
     finally:
         connection.close()

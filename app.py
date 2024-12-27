@@ -1,11 +1,13 @@
-from flask import Flask,render_template,jsonify,request,redirect,url_for
-from database import load_data,load_item  
+from flask import Flask,render_template,jsonify,request,redirect,url_for,flash
+from database import load_data,load_item,insert_application
 import random
 import datetime
 from forms import signup as signupform
+from flask_bcrypt import Bcrypt
                 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '15546c327b3b7e35dbe0379cc9a745ad888fd86d4ebbbbae7694001ee85951e4'
+bcrypt = Bcrypt(app)
 
 def set_reservation():
     tomorrow=datetime.datetime.now() + datetime.timedelta(days=1)
@@ -39,8 +41,28 @@ def signup():
     form = signupform()
     if form.validate_on_submit():
         data = [form.name.data,form.email.data,form.password1.data]
-        print(data)
-        return redirect(url_for("market"))
+        pw_hash = bcrypt.generate_password_hash(data[2])
+        if bcrypt.check_password_hash(pw_hash, data[2]):
+            data[2] = pw_hash
+            dupcheck = insert_application(data)
+            if dupcheck != None:
+                if 1062 in dupcheck:   ### brainstorm
+                    flash('THIS EMAIL IS ALREADY USED!')
+            else:
+                flash('YOU HAVE SIGNED UP')
+                return redirect(url_for("market"))
+        else:
+            print('FAILED SIGNUP ATTEMPT!')
+        
+    elif form.errors != {}:   ### excellence 
+        for error in form.errors.values():
+            for i in range(len(error)):
+                if error[i] == 'Field must be equal to password1.':
+                    error[i] = "Password confirmation does not match"
+            
+            for msg in error:
+                flash(msg)
+                
     return render_template('signup.html',form=form)
 
 @app.route('/login')
