@@ -1,9 +1,10 @@
 import pymysql
 from dotenv import load_dotenv  ### shut down all dotenv in push
+from flask_sqlalchemy import SQLAlchemy
 import os
 
 load_dotenv()  ### shut down all dotenv in push
-
+    
 def get_db_connection():
     return pymysql.connect(
         charset="utf8mb4",
@@ -69,3 +70,41 @@ def insert_application(user_data):
         return list(e.args)
     finally:
         connection.close()
+        
+def get_user_with_email(email):
+    connection = get_db_connection()
+    try:
+        cursor = connection.cursor()
+        cursor.execute("SELECT id, name, email,password FROM users WHERE email = %s", (email,))
+        result = cursor.fetchone()  # Fetch one record
+        
+        if result:
+            # Convert row data into User object
+            return result
+        else:
+            return None  # No user found
+    except Exception as e:
+        print(f"Error: {e}")
+        return None
+    finally:
+        connection.close()
+        
+def get_user_with_id(user_id):
+    connection = get_db_connection()
+    try:
+        cursor = connection.cursor()
+        cursor.execute("SELECT id, name, email,password FROM users WHERE id = %s", (user_id,))
+        result = cursor.fetchone()  # Fetch one record
+        
+        if result:
+            # Convert row data into User object
+            return result
+        else:
+            return None  # No user found
+    except Exception as e:
+        print(f"Error: {e}")
+        return None
+    finally:
+        connection.close()
+        
+        

@@ -9,6 +9,15 @@ class signup(FlaskForm):
     password2=PasswordField("Repeat Password", validators=[EqualTo("password1"), DataRequired()])
     submit=SubmitField("Submit")
 
+class login(FlaskForm):
+    email =StringField('Your Email',validators=[Email(), DataRequired()])
+    password=PasswordField("Password", validators=[DataRequired()])
+    submit=SubmitField("Submit")
+
+
+    
+
+
 
 
     

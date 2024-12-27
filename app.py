@@ -1,13 +1,33 @@
 from flask import Flask,render_template,jsonify,request,redirect,url_for,flash
-from database import load_data,load_item,insert_application
+from database import load_data,load_item,insert_application,get_user_with_email,get_user_with_id
 import random
 import datetime
 from forms import signup as signupform
-from flask_bcrypt import Bcrypt
+from forms import login as loginform
+from flask_bcrypt import Bcrypt,check_password_hash
+from flask_login import LoginManager,login_user,login_required,UserMixin,current_user,logout_user
                 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '15546c327b3b7e35dbe0379cc9a745ad888fd86d4ebbbbae7694001ee85951e4'
 bcrypt = Bcrypt(app)
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = "login"
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    userx = get_user_with_id(user_id)
+    user = User(userx['id'],userx['name'],userx['email'])
+    return user
+
+class User(UserMixin):
+    def __init__(self,id,name,email):
+        self.id=id
+        self.name=name
+        self.email = email
+
 
 def set_reservation():
     tomorrow=datetime.datetime.now() + datetime.timedelta(days=1)
@@ -21,7 +41,9 @@ def home():
     return render_template('home.html')
 
 @app.route('/market')
+@login_required
 def market():
+    print(current_user.is_authenticated)
     data = load_data()
     return render_template('market.html',data=data)
 
@@ -37,21 +59,22 @@ def reservation(id):
     return render_template('reservation.html',data=data,timeset=timeset)
 
 @app.route('/signup',methods=['POST','GET'])
+
 def signup():
     form = signupform()
     if form.validate_on_submit():
         data = [form.name.data,form.email.data,form.password1.data]
         pw_hash = bcrypt.generate_password_hash(data[2])
-        if bcrypt.check_password_hash(pw_hash, data[2]):
+        try:
             data[2] = pw_hash
             dupcheck = insert_application(data)
             if dupcheck != None:
                 if 1062 in dupcheck:   ### brainstorm
-                    flash('THIS EMAIL IS ALREADY USED!')
+                    flash('This email is already used!')
             else:
-                flash('YOU HAVE SIGNED UP')
+                flash('You have signed up')
                 return redirect(url_for("market"))
-        else:
+        except:
             print('FAILED SIGNUP ATTEMPT!')
         
     elif form.errors != {}:   ### excellence 
@@ -65,10 +88,31 @@ def signup():
                 
     return render_template('signup.html',form=form)
 
-@app.route('/login')
+@app.route('/login',methods=['GET','POST'])
 def login():
-    return render_template('login.html')
+    form = loginform()
+    if form.validate_on_submit():
+        attempted_user = [form.email.data,form.password.data]
+        user_data = get_user_with_email(attempted_user[0])
+        if user_data != None:
+            if check_password_hash(user_data['password'],attempted_user[1]):
+                userz = User(user_data['id'], user_data['name'], user_data['email'])
+                login_user(userz)
 
+                flash(f'YOU LOGGED IN AS {user_data['name']}')
+                return redirect(url_for('market'))
+            else:
+                flash('Account not found!')
+        else:
+            flash('Account not found!')
+
+    return render_template('login.html',form=form)
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    flash('You have logged out')
+    return redirect(url_for('home'))
 
 if __name__ == '__main__':
     app.run(
