@@ -70,6 +70,8 @@ def reservation(id):
 
 def signup():
     form = signupform()
+    if form.errors:
+        print(form.errors)
     if form.validate_on_submit():
         data = [form.name.data,form.email.data,form.password1.data]
         pw_hash = bcrypt.generate_password_hash(data[2])
