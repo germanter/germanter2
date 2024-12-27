@@ -6,10 +6,10 @@ from forms import signup as signupform
 from forms import login as loginform
 from flask_bcrypt import Bcrypt,check_password_hash
 from flask_login import LoginManager,login_user,login_required,UserMixin,current_user,logout_user
-# from dotenv import load_dotenv  ### shut down all dotenv in push
+from dotenv import load_dotenv  ### shut down all dotenv in push
 import os
 
-# load_dotenv()  ### shut down all dotenv in push
+load_dotenv()  ### shut down all dotenv in push
                 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('key')
