@@ -4,3 +4,5 @@ pymysql
 sqlalchemy
 flask_login
 flask_bcrypt
+wtforms
+flask_wtf
