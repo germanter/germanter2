@@ -82,6 +82,9 @@ def signup():
                 if 1062 in dupcheck:   ### brainstorm
                     flash('This email is already used!')
             else:
+                user_data = get_user_with_email(data[1])
+                user_join = User(user_data['id'],user_data['name'],user_data['email'])
+                login_user(user_join)
                 flash('You have signed up')
                 return redirect(url_for("market"))
         except:
