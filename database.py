@@ -1,6 +1,6 @@
 import pymysql
 from dotenv import load_dotenv  ### shut down all dotenv in push
-from flask_sqlalchemy import SQLAlchemy
+
 import os
 
 load_dotenv()  ### shut down all dotenv in push
@@ -79,7 +79,7 @@ def get_user_with_email(email):
         result = cursor.fetchone()  # Fetch one record
         
         if result:
-            # Convert row data into User object
+    
             return result
         else:
             return None  # No user found
@@ -97,7 +97,7 @@ def get_user_with_id(user_id):
         result = cursor.fetchone()  # Fetch one record
         
         if result:
-            # Convert row data into User object
+            
             return result
         else:
             return None  # No user found
@@ -106,5 +106,7 @@ def get_user_with_id(user_id):
         return None
     finally:
         connection.close()
+        
+        
         
         

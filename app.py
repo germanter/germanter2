@@ -1,4 +1,4 @@
-from flask import Flask,render_template,jsonify,request,redirect,url_for,flash
+from flask import Flask,render_template,jsonify,redirect,url_for,flash
 from database import load_data,load_item,insert_application,get_user_with_email,get_user_with_id
 import random
 import datetime
@@ -6,9 +6,13 @@ from forms import signup as signupform
 from forms import login as loginform
 from flask_bcrypt import Bcrypt,check_password_hash
 from flask_login import LoginManager,login_user,login_required,UserMixin,current_user,logout_user
+from dotenv import load_dotenv  ### shut down all dotenv in push
+import os
+
+load_dotenv()  ### shut down all dotenv in push
                 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '15546c327b3b7e35dbe0379cc9a745ad888fd86d4ebbbbae7694001ee85951e4'
+app.config['SECRET_KEY'] = os.getenv('key')
 bcrypt = Bcrypt(app)
 
 login_manager = LoginManager()
@@ -18,8 +22,12 @@ login_manager.login_view = "login"
 
 @login_manager.user_loader
 def load_user(user_id):
-    userx = get_user_with_id(user_id)
-    user = User(userx['id'],userx['name'],userx['email'])
+    attempted_user = get_user_with_id(user_id)
+    user = User(
+        attempted_user['id'],
+        attempted_user['name'],
+        attempted_user['email']
+        )
     return user
 
 class User(UserMixin):
@@ -96,10 +104,10 @@ def login():
         user_data = get_user_with_email(attempted_user[0])
         if user_data != None:
             if check_password_hash(user_data['password'],attempted_user[1]):
-                userz = User(user_data['id'], user_data['name'], user_data['email'])
-                login_user(userz)
+                user_attempt = User(user_data['id'], user_data['name'], user_data['email'])
+                login_user(user_attempt)
 
-                flash(f'YOU LOGGED IN AS {user_data['name']}')
+                flash(f'You logged in as {user_data['name']}')
                 return redirect(url_for('market'))
             else:
                 flash('Account not found!')
