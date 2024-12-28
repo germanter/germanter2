@@ -9,26 +9,43 @@
 {% block text %}
     <br><br>
     <div style="display: flex; justify-content: center; align-items: center; background-color: #f8f9fa; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); max-width: 900px; margin: auto;">
+        
         <!-- Form Section -->
-        <form method="POST" style="flex: 1; display: flex; flex-direction: column; align-items: center; margin-right: 20px;">
+        <form method="POST" style="flex: 1; display: flex; flex-direction: column; align-items: center; margin-right: 20px;" onsubmit="return disableButton(this);">
             {{form.hidden_tag()}}
             <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
             
             {{form.name.label(style="font-family: Arial, sans-serif; font-size: 18px; margin-bottom: 5px;")}}
             {{form.name(style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;")}}
-
+        
             {{form.email.label(style="font-family: Arial, sans-serif; font-size: 18px; margin-bottom: 5px;")}}
             {{form.email(style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;")}}
           
             {{form.password1.label(style="font-family: Arial, sans-serif; font-size: 18px; margin-bottom: 5px;")}}
             {{form.password1(style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;")}}
-
+        
             {{form.password2.label(style="font-family: Arial, sans-serif; font-size: 18px; margin-bottom: 5px;")}}
             {{form.password2(style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;")}}
             <a href='{{url_for('login')}}' class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" style="font-family: Arial, sans-serif; font-size: 16px; margin-bottom: 10px;">Already have an account?</a>
-
-            {{form.submit(class="btn btn-primary btn-lg")}}
+        
+            {{ form.submit(id="submitButton", class="btn btn-primary btn-lg") }}
         </form>
+        
+        <script>
+            function disableButton(form) {
+                const submitButton = form.querySelector('#submitButton');
+                
+                // form checker
+                if (form.checkValidity()) {
+                    submitButton.disabled = true; // detach button
+                    submitButton.value = 'Processing...'; // button letter change
+                    return true; // deactive response
+                }
+                
+                return false; // reactiving button
+            }
+        </script>
+        
     
         <!-- Photo Section -->
         <div style="flex: 1; text-align: center;">
@@ -36,7 +53,7 @@
             <img src="/static/signup.png"style="max-width: 100%; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);width:100%;height:100%;">
         </div>
     </div>
+
     
-      
       <br>
 {% endblock %}

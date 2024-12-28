@@ -1,16 +1,18 @@
-from flask import Flask,render_template,jsonify,redirect,url_for,flash
-from database import load_data,load_item,insert_application,get_user_with_email,get_user_with_id
+from flask import Flask,render_template,jsonify,redirect,url_for,flash,request
+from database import load_data,load_item,insert_user,get_user_with_email,get_user_with_id,insert_res
 import random
 import datetime
 from forms import signup as signupform
 from forms import login as loginform
 from flask_bcrypt import Bcrypt,check_password_hash
 from flask_login import LoginManager,login_user,login_required,UserMixin,current_user,logout_user
-from dotenv import load_dotenv  ### shut down all dotenv in push
+from dotenv import load_dotenv
 import os
 
-load_dotenv()  ### shut down all dotenv in push
-                
+### secure
+load_dotenv() 
+
+#app sys          
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('key')
 bcrypt = Bcrypt(app)
@@ -19,7 +21,7 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
 
-
+#login sys
 @login_manager.user_loader
 def load_user(user_id):
     attempted_user = get_user_with_id(user_id)
@@ -36,7 +38,7 @@ class User(UserMixin):
         self.name=name
         self.email = email
 
-
+#market logic
 def set_reservation():
     tomorrow=datetime.datetime.now() + datetime.timedelta(days=1)
     tomorrow=tomorrow.strftime("%Y-%m-%d")
@@ -44,6 +46,7 @@ def set_reservation():
     time=random.choice(times)
     return [tomorrow,time]
 
+#routes
 @app.route('/')
 def home():
     return render_template('home.html')
@@ -55,17 +58,35 @@ def market():
     data = load_data()
     return render_template('market.html',data=data)
 
+
+x = False
+
 @app.route('/market/<id>')
 def show_item(id):
     data = load_item(id)
     return render_template('show_item.html',data=data)
 
-@app.route('/market/<id>/reservation')
+
+@app.route('/market/<id>/reservation',)
 def reservation(id):
     data = load_item(id)
-    timeset= set_reservation()
-    return render_template('reservation.html',data=data,timeset=timeset)
+    dupcheck = insert_res(current_user.id,id)
+    print(dupcheck)
+    if dupcheck !=None:
+        if 1062 == dupcheck[0]:
+            flash('You have already made a reservation for this car')
+            return redirect(url_for('show_item',id=id))
+        else:
+            flash('Something went wrong')
+            return redirect(url_for('show_item',id=id))
 
+    else:
+        timeset= set_reservation()
+        return render_template(
+            'reservation.html',
+            data=data,
+            timeset=timeset)
+            
 @app.route('/signup',methods=['POST','GET'])
 
 def signup():
@@ -77,7 +98,7 @@ def signup():
         pw_hash = bcrypt.generate_password_hash(data[2])
         try:
             data[2] = pw_hash
-            dupcheck = insert_application(data)
+            dupcheck = insert_user(data)
             if dupcheck != None:
                 if 1062 in dupcheck:   ### brainstorm
                     flash('This email is already used!')
@@ -130,5 +151,5 @@ def logout():
 if __name__ == '__main__':
     app.run(
         host = '0.0.0.0',
-        # debug = True
+        # debug = True  ### deactivate on push
     )

@@ -18,7 +18,12 @@
         <p style="padding:10px;font-weight:bold;border: 2px solid #DFDFDF; border-radius: 8px;margin-right:50px;margin-left:50px;font-size: 1.5em; color: #black;">Specifications : {{data[0]['specs']}}</p>
 
         <br>
-        <a href="{{url_for('reservation',id=data[0]['id'])}}" style='font-size:1.5em;margin-bottom:5px;' class="btn btn-primary">Make a reservation</a>
+        <a href="{{ url_for('reservation', id=data[0]['id']) }}" 
+   style='font-size:1.5em;margin-bottom:5px;' 
+   class="btn btn-primary" 
+   onclick="this.onclick=null; this.style.pointerEvents='none'; this.innerText='Processing...';"> 
+   Make a reservation
+</a>
         <br><br>
     </div>
     

@@ -51,7 +51,7 @@ def load_item(id):
     finally:
         connection.close()
         
-def insert_application(user_data):
+def insert_user(user_data):
     connection = get_db_connection()
     try:
         cursor = connection.cursor()
@@ -107,6 +107,23 @@ def get_user_with_id(user_id):
     finally:
         connection.close()
         
+
         
-        
-        
+def insert_res(user_id,item_id):
+    connection = get_db_connection()
+    try:
+        cursor = connection.cursor()
+        cursor.execute(
+            "INSERT INTO res (item_id, user_id) VALUES(%s, %s)",
+            (
+                item_id,
+                user_id,
+            ),
+        )
+        connection.commit()
+        print("RES SUCCESSFULLY INSERTED!")
+    except Exception as e:
+        print(f"FAILED TO INSERT RES: {e}")
+        return list(e.args)
+    finally:
+        connection.close()   
