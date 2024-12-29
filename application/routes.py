@@ -1,50 +1,13 @@
-from flask import Flask,render_template,jsonify,redirect,url_for,flash,request
-from database import load_data,load_item,insert_user,get_user_with_email,get_user_with_id,insert_res
-import random
-import datetime
-from forms import signup as signupform
-from forms import login as loginform
-from flask_bcrypt import Bcrypt,check_password_hash
-from flask_login import LoginManager,login_user,login_required,UserMixin,current_user,logout_user
-from dotenv import load_dotenv
-import os
+from application import app
+from flask import render_template,jsonify,redirect,url_for,flash
+from application.database import load_data,load_item,insert_user,get_user_with_email,get_user_with_id,insert_res
+from application.forms import signup as signupform
+from application.forms import login as loginform
+from flask_bcrypt import check_password_hash
+from flask_login import login_user,login_required,current_user,logout_user
+from application import bcrypt
+from application.models import User,set_reservation
 
-### secure
-load_dotenv() 
-
-#app sys          
-app = Flask(__name__)
-app.config['SECRET_KEY'] = os.getenv('key')
-bcrypt = Bcrypt(app)
-
-login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_view = "login"
-
-#login sys
-@login_manager.user_loader
-def load_user(user_id):
-    attempted_user = get_user_with_id(user_id)
-    user = User(
-        attempted_user['id'],
-        attempted_user['name'],
-        attempted_user['email']
-        )
-    return user
-
-class User(UserMixin):
-    def __init__(self,id,name,email):
-        self.id=id
-        self.name=name
-        self.email = email
-
-#market logic
-def set_reservation():
-    tomorrow=datetime.datetime.now() + datetime.timedelta(days=1)
-    tomorrow=tomorrow.strftime("%Y-%m-%d")
-    times=['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00']
-    time=random.choice(times)
-    return [tomorrow,time]
 
 #routes
 @app.route('/')
@@ -58,8 +21,6 @@ def market():
     data = load_data()
     return render_template('market.html',data=data)
 
-
-x = False
 
 @app.route('/market/<id>')
 def show_item(id):
@@ -147,9 +108,3 @@ def logout():
     logout_user()
     flash('You have logged out')
     return redirect(url_for('home'))
-
-if __name__ == '__main__':
-    app.run(
-        host = '0.0.0.0',
-        # debug = True  ### deactivate on push
-    )
