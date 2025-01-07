@@ -10,12 +10,12 @@
 
 
 {% block text %}
-    <br><br>
-    <h1><b> Proto-Car #1 Online Car Dealer Site</b></h1> 
+    <div id='containerh'>
+    <p id='h1'><b> Proto-Car #1 Online Car Dealer Site</b></p> 
     <br>
-    <hr style='border-radius:15px;'>
+    <hr class='hr1'>
     <br>
- <p style='color:black;font-size:30px;'>
+ <p id='p1'>
         Proto-Car: Your Dream Car is Here
 
         Buying a car is not just a necessity, it's an experience. With Proto-Car, we ensure security and convenience every step of the way. Whether you're buying your first car or upgrading to your dream ride, we have the perfect options for you.
@@ -26,6 +26,7 @@
  <a type='button' href="{{ url_for('market') }}"  style='font-size:1.2em;margin-top:10px;margin-bottom:10px;' type="button" class="btn btn-outline-primary">See cars</a>
 
  <br>
- <hr style='border-radius:15px;'>
+ <hr class='h1'>
+</div>
 
 {% endblock %}
