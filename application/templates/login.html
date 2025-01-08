@@ -8,22 +8,22 @@
 
 {% block text %}
     <br><br>
-    <div style="display: flex; justify-content: center; align-items: center; background-color: #f8f9fa; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); max-width: 900px; margin: auto;">
+    <div id='logdiv'>
         <!-- Form  -->
         <form method="POST"  style="flex: 1; display: flex; flex-direction: column; align-items: center; margin-right: 20px;">
             {{form.hidden_tag()}}
-            <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Login</p>
+            <p id='labelsign' class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Login</p>
             
             
-            {{form.email.label(style="font-family: Arial, sans-serif; font-size: 18px; margin-bottom: 5px;")}}
-            {{form.email(style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;")}}
+            {{form.email.label(class='form1')}}
+            {{form.email(class='form2')}}
           
-            {{form.password.label(style="font-family: Arial, sans-serif; font-size: 18px; margin-bottom: 5px;")}}
-            {{form.password(style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;")}}
-            <a href='{{url_for('signup')}}' class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" style="font-family: Arial, sans-serif; font-size: 16px; margin-bottom: 10px;">Don't have an account?</a>
+            {{form.password.label(class='form1')}}
+            {{form.password(class='form2')}}
+            <a href='{{url_for('signup')}}' class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" id='help'>Don't have an account?</a>
 
     
-            {{form.submit(class="btn btn-primary btn-lg")}}
+            {{form.submit(id='button1',class="btn btn-primary btn-lg")}}
         </form>
         <!-- Image  -->
         <div style="flex: 1; text-align: center;">

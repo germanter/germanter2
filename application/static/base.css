@@ -67,6 +67,43 @@
         margin-top:40px;
         margin-bottom:-10px;
     }
+    #logdiv{
+        display: flex; 
+        justify-content: center; 
+        align-items: center; 
+        background-color: #f8f9fa; 
+        padding: 20px; 
+        border-radius: 10px; 
+        box-shadow: 0 0 10px rgba(0,0,0,0.1); 
+        max-width: 900px; 
+        margin: auto;
+    }
+    .from1{
+        font-family: Arial, 
+        sans-serif; 
+        font-size: 18px; 
+        margin-bottom: 5px;
+    }
+    .form2{
+        width: 100%; 
+        padding: 10px; 
+        margin-bottom: 15px; 
+        border: 1px solid #ccc; 
+        border-radius: 5px;
+    }
+    #help{
+        font-family: Arial, sans-serif; 
+        font-size: 16px; 
+        margin-bottom: 10px;
+    }
+    #button1{
+        font-size:25px;
+        margin-bottom:0px;
+    }
+    #labelsign{
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
 }
 
 @media(max-width:992px) and (min-width:521px){
@@ -139,7 +176,43 @@
         margin-top:30px;
         margin-bottom:-10px;
     }
-    
+    #logdiv{
+        display: flex; 
+        justify-content: center; 
+        align-items: center; 
+        background-color: #f8f9fa; 
+        padding: 15px; 
+        border-radius: 10px; 
+        box-shadow: 0 0 10px rgba(0,0,0,0.1); 
+        max-width: 900px; 
+        margin: auto;
+    }
+    .from1{
+        font-family: Arial, 
+        sans-serif; 
+        font-size: 10px; 
+        margin-bottom: 5px;
+    }
+    .form2{
+        width: 100%; 
+        padding: 7px; 
+        margin-bottom: 10px; 
+        border: 1px solid #ccc; 
+        border-radius: 5px;
+    }
+    #help{
+        font-family: Arial, sans-serif; 
+        font-size: 15px; 
+        margin-bottom: 8px;
+    }
+    #button1{
+        font-size:17px;
+        margin-bottom:0px;
+    }
+    #labelsign{
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
 } 
 
 @media(max-width:520px){
@@ -198,22 +271,61 @@
     #content{
         flex: 1; 
         text-align: center; 
-        font-size: 10px; 
-        padding-left:25px;
-        padding-right:25px;
+        font-size: 15px; 
+        padding-left:35px;
+        padding-right:35px;
     }
     #p1{
         color:black;
-        font-size:10px;
+
         margin-top:-10px;
         margin-bottom:5px;
     }
     #h1{
         font-size:20px;
-        margin-top:0px;
+        margin-top:15px;
         margin-bottom:0px;
     }
     #containerh{
         margin-top:0px;
+    }
+    #logdiv{
+        display: flex; 
+        justify-content: center; 
+        align-items: center; 
+        background-color: #f8f9fa; 
+        padding: 10px; 
+        border-radius: 10px; 
+        box-shadow: 0 0 10px rgba(0,0,0,0.1); 
+        max-width: 900px; 
+        margin: auto;
+    }
+    .from1{
+        font-family: Arial, 
+        sans-serif; 
+        font-size: 5px; 
+        margin-bottom: 5px;
+    }
+    .form2{
+        width: 100%; 
+        padding: 3px; 
+        margin-bottom: 5px; 
+        border: 1px solid #ccc; 
+        border-radius: 5px;
+    }
+    #help{
+        font-family: Arial, sans-serif; 
+        font-size: 13px; 
+        margin-bottom: 6px;
+    }
+    #button1{
+        font-size:13px;
+        margin-bottom:0px;
+        padding-bottom:8px;
+        padding-top: 8px;
+    }
+    #labelsign{
+        margin-top: 0px;
+        margin-bottom: 0px;
     }
 }
